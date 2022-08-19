@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useEffect,useRef } from "react";
+import emailjs from 'emailjs-com'
 import "./Subscribe.css";
 import { TiSocialGooglePlus } from "react-icons/ti";
 import { FaFacebookF, FaTwitter, FaInstagram } from "react-icons/fa";
@@ -7,6 +8,18 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 
 const Subscribe = () => {
+  const form = useRef()
+  const sendEmail = (e) => {
+    e.preventDefault();
+
+    emailjs.sendForm('service_asxjbde', 'template_on6fe1l', form.current, '0FGQVpRb3dOM06iLI')
+      .then((result) => {
+          console.log(result.text);
+      }, (error) => {
+          console.log(error.text);
+      });
+      e.target.reset();
+  };
   useEffect(() => {
     AOS.init({
       duration: 1000,
@@ -23,7 +36,7 @@ const Subscribe = () => {
           </div>
         </form> */}
          {/* <form ref={form} onSubmit={sendEmail}> */}
-         <form>
+         <form ref={form} onSubmit={sendEmail}>
           <div className="form-control">
          <input type="text" name='name' placeholder='Your Full Name' required />
          <input type="email" name='email' placeholder='Your Email' required />
